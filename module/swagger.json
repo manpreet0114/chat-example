@@ -1,0 +1,206 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Chat Example",
+      "description": "Chat Example",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3008/",
+        "description": "local server"
+      }
+    ],
+    "tags": [
+      {
+        "name": "User",
+        "description": "User Related API's"
+      }
+    ],
+    "paths": {
+      "/user/sign-up": {
+        "post": {
+          "tags": ["User"],
+          "summary": "User Sign Up",
+          "requestBody": {
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "$ref": "#/components/schemas/user_signup"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/user_signup"
+                }
+              }
+            }
+          },
+          "responses": {
+            "default": {
+              "description": "successful operation"
+            }
+          }
+        },
+        "get": {
+          "tags": ["User"],
+          "summary": "User Profile",
+          "responses": {
+            "default": {
+              "description": "successful operation"
+            }
+          },
+          "security": [
+            {
+              "access_token": ["authorization"]
+            }
+          ]
+        }
+      },
+      "/user/{_id}": {
+        "get": {
+          "tags": ["User"],
+          "summary": "Get Agent Detail",
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/get_by_id"
+            }
+          ],
+          "responses": {
+            "default": {
+              "description": "successful operation"
+            }
+          },
+          "security": [
+            {
+              "access_token": ["authorization"]
+            }
+          ]
+        },"deprecated":"true"
+      }
+    },
+    "components": {
+      "schemas": {
+        "user_signup": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Enter first name",
+              "type": "string"
+            },
+            "email": {
+              "description": "Enter your email",
+              "type": "string",
+              "format": "email",
+              "default": "john01@yopmail.com"
+            },
+            "password": {
+              "description": "Enter your password",
+              "type": "string",
+              "format": "password",
+              "default": "qwerty"
+            }
+          },
+          "required": ["email", "password"]
+        }
+      },
+      "parameters": {
+        "search": {
+          "name": "search",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string"
+          },
+          "style": "form",
+          "explode": true
+        },
+        "name": {
+          "name": "name",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string"
+          },
+          "style": "form",
+          "explode": true
+        },
+        "pagination": {
+          "name": "pagination",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number"
+          },
+          "default": 0,
+          "style": "form",
+          "explode": true
+        },
+        "limit": {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "format": "number"
+          },
+          "style": "form",
+          "default": 10,
+          "explode": true
+        },
+        "get_by_id": {
+          "name": "_id",
+          "in": "path",
+          "description": "Pass here id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        "lat": {
+          "name": "lat",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number"
+          },
+          "style": "form",
+          "explode": true
+        },
+        "lng": {
+          "name": "lng",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number"
+          },
+          "style": "form",
+          "explode": true
+        },
+        "token": {
+          "in": "header",
+          "name": "authorization",
+          "description": "access_token to be passed as a header",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      },
+      "securitySchemes1": {
+        "access_token": {
+          "type": "http",
+          "name": "authorization",
+          "in": "header"
+        }
+      },
+      "securitySchemes": {
+        "access_token": {
+          "type": "apiKey",
+          "name": "token",
+          "in": "header"
+        }
+      }
+    }
+  }
+  
